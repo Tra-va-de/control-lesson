@@ -13,6 +13,8 @@ services:
     # command: bash -c "./wait-for-db.sh db && uvicorn main:create_app --host 0.0.0.0 --port 8000"
     volumes:
       - ./app:/code
+    networks:
+      - app-network
     ports:
       - ${APP_HOST_PORT}:8000
     # restart: always
@@ -29,6 +31,8 @@ services:
       - TEST_DB=${TEST_DB_NAME}
       - TEST_USER=${TEST_DB_USER}
       - TEST_PASSWORD=${TEST_DB_PASSWORD}
+    networks:
+      - app-network
     ports:
       - ${POSTGRES_DB_HOST_PORT}:5432
     volumes:
@@ -39,6 +43,8 @@ services:
   redis:
     container_name: control_lesson_redis
     image: redis
+    networks:
+      - app-network
     ports:
       - ${REDIS_DB_HOST_PORT}:6379
     restart: always
@@ -50,6 +56,12 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - app
+    networks:
+      - app-network
     ports:
       - ${VUE_APP_HOST_PORT}:8080
     restart: always
+
+networks:
+  app-network:
+    driver: bridge
