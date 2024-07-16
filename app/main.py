@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from contextlib import asynccontextmanager
 
@@ -35,6 +36,14 @@ def create_app() -> FastAPI:
     app.include_router(lesson.router, prefix="/api/v1", tags=["Lesson"])
     app.include_router(subject.router, prefix="/api/v1", tags=["Subjects"])
     app.include_router(question.router, prefix="/api/v1", tags=["Questions"])
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["http://localhost:8080", "http://localhost:8000"],  # URL вашего фронтенда
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     return app
 
