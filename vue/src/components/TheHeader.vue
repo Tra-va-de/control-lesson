@@ -18,9 +18,14 @@
 			const lessonDetails = await axios.get(
 				`${apiEndpoint}/lessons/${lessonId}`
 			)
-			console.log(lessonDetails.data);
+			const disciplineDetails = await axios.get(
+				`${apiEndpoint}/disciplines/${lessonDetails.data.discipline_id}`
+			)
+			const levelDetails = await axios.get(
+				`${apiEndpoint}/lesson-levels/${lessonDetails.data.lesson_level_id}`
+			)
 
-			lessonName.value = lessonDetails.data.name
+			lessonName.value = `${disciplineDetails.data.name}. ${levelDetails.data.name} уровень. ${lessonDetails.data.name}`
 		} catch (error) {
 			console.log(error)
 		}
@@ -55,16 +60,15 @@
 </script>
 
 <template>
-	<header class="header">
+	<header class="header" v-auto-animate>
 		<h1 class="header__lesson-name">{{ lessonName }}</h1>
 		<ul class="header__student-info">
 		<li class="header__student-name">Ученик: {{ studentName }}</li>
 		<li class="header__lessons-liassed">Уроков пройдено: {{ lessonsLassed }}</li>
 		<li class="header__date-of-lesson"
 			@mouseenter="isHovered = true" 
-			@mouseleave="isHovered = false"
-			v-auto-animate>
-			<p class="header__date">Дата: {{ date }}</p>
+			@mouseleave="isHovered = false">
+			<p class="header__date" v-auto-animate>Дата: {{ date }}</p>
 			<button v-if="isHovered" @click="updateDate" class="header__update-date-btn">
 				✓
 			</button>

@@ -130,8 +130,8 @@
 
     <TheOptions />
 
-    <Survey title="Теория" type="theory" :questionsArray="theorySubjectsAndQuestions" />
-    <Survey title="Практика" type="practice" :questionsArray="practiceSubjectsAndQuestions" />
+    <Survey title="Теория" type="theory" :questionsArray="theorySubjectsAndQuestions" v-auto-animate />
+    <Survey title="Практика" type="practice" :questionsArray="practiceSubjectsAndQuestions" v-auto-animate />
   </section>
 </template>
 
