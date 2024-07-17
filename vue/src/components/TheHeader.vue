@@ -1,47 +1,76 @@
 <script setup>
-import { ref } from 'vue';
+	import { ref, watch } from 'vue';
+	import axios from 'axios'
+	
+	const apiEndpoint = import.meta.env.VITE_PRIVATE_API_ENDPOINT;
 
-const props = defineProps({
-  name: String,
-  lessonsLassed: Number,
-  initialDate: String
-})
+	const props = defineProps({
+		lessonId: Number,
+		studentName: String,
+		lessonsLassed: Number,
+		initialDate: String
+	})
 
-const formatDate = (date) => {
-  const d = new Date(date);
-  const day = String(d.getDate()).padStart(2, '0');
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const year = d.getFullYear();
+	const lessonName = ref('');
 
-  return `${day}.${month}.${year}`;
-}
+	const fetchLessonName = async (lessonId) => {
+		try {
+			const lessonDetails = await axios.get(
+				`${apiEndpoint}/lessons/${lessonId}`
+			)
+			console.log(lessonDetails.data);
 
-const date = ref(props.initialDate);
-const isHovered = ref(false);
+			lessonName.value = lessonDetails.data.name
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
-const updateDate = () => {
-  // Выводим новую дату в формате "дд.мм.гггг"
-  date.value = formatDate(new Date());
-};
+	watch(
+		() => props.lessonId,
+		async (newLessonId) => {
+			if (newLessonId) {
+				await fetchLessonName(newLessonId);
+			}
+		},
+		{ immediate: true }
+	);
+
+	const formatDate = (date) => {
+		const d = new Date(date);
+		const day = String(d.getDate()).padStart(2, '0');
+		const month = String(d.getMonth() + 1).padStart(2, '0');
+		const year = d.getFullYear();
+
+		return `${day}.${month}.${year}`;
+	}
+
+	const date = ref(props.initialDate);
+	const isHovered = ref(false);
+
+	const updateDate = () => {
+		// Выводим новую дату в формате "дд.мм.гггг"
+		date.value = formatDate(new Date());
+	};
 </script>
 
 <template>
-  <header class="header">
-    <h1 class="header__lesson-name">Контрольный урок 1</h1>
-    <ul class="header__student-info">
-      <li class="header__student-name">Ученик: {{ name }}</li>
-      <li class="header__lessons-liassed">Уроков пройдено: {{ lessonsLassed }}</li>
-      <li class="header__date-of-lesson"
-          @mouseenter="isHovered = true" 
-          @mouseleave="isHovered = false"
-          v-auto-animate>
-        <p class="header__date">Дата: {{ date }}</p>
-        <button v-if="isHovered" @click="updateDate" class="header__update-date-btn">
-          ✓
-        </button>
-      </li>
-    </ul>
-  </header>
+	<header class="header">
+		<h1 class="header__lesson-name">{{ lessonName }}</h1>
+		<ul class="header__student-info">
+		<li class="header__student-name">Ученик: {{ studentName }}</li>
+		<li class="header__lessons-liassed">Уроков пройдено: {{ lessonsLassed }}</li>
+		<li class="header__date-of-lesson"
+			@mouseenter="isHovered = true" 
+			@mouseleave="isHovered = false"
+			v-auto-animate>
+			<p class="header__date">Дата: {{ date }}</p>
+			<button v-if="isHovered" @click="updateDate" class="header__update-date-btn">
+				✓
+			</button>
+		</li>
+		</ul>
+	</header>
 </template>
 
 <style scoped lang="scss">
