@@ -5,7 +5,7 @@ from typing import Optional
 class StudentAnswerBase(BaseModel):
     student_id: int = Field(..., example=1)
     question_id: int = Field(..., example=1)
-    answer: float = Field(..., ge=0, le=1, example=0.75)  # Используем Field для задания ограничений
+    answer: float = Field(..., ge=0, le=1, example=0.5)  # Используем Field для задания ограничений
 
 
 
@@ -17,6 +17,10 @@ class StudentAnswerUpdate(StudentAnswerBase):
     student_id: Optional[int] = None
     question_id: Optional[int] = None
     answer: Optional[float] = Field(None, ge=0, le=1)  # Задаем ограничение через Field
+
+
+class StudentAnswerCreateOrUpdate(StudentAnswerUpdate):
+    pass
 
 
 class StudentAnswerInDBBase(StudentAnswerBase):

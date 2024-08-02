@@ -5,7 +5,7 @@ from sqlalchemy.future import select
 from sqlalchemy import delete as sqlalchemy_delete
 
 from models.student_answer import StudentAnswer
-from schemas.student_answer import StudentAnswerCreate, StudentAnswerUpdate
+from schemas.student_answer import StudentAnswerCreate, StudentAnswerUpdate, StudentAnswerCreateOrUpdate
 
 
 class StudentAnswerRepository:
@@ -58,8 +58,30 @@ class StudentAnswerRepository:
         result = await db.execute(select(StudentAnswer).where(StudentAnswer.question_id == question_id))
         return result.scalars().all()
     
-    async def create_or_update(self, db: AsyncSession, student_answer: StudentAnswer) -> StudentAnswer:
-        db_student_answer = await self.get(db, student_answer.id)
-        if not db_student_answer:
-            return await self.create(db, student_answer)
-        return await self.update(db, student_answer.id, student_answer)
+    async def create_or_update(self, db: AsyncSession, student_answer: StudentAnswerCreateOrUpdate) -> StudentAnswer:
+        # Поиск существующей записи
+        query = select(StudentAnswer).where(
+            (StudentAnswer.student_id == student_answer.student_id) &
+            (StudentAnswer.question_id == student_answer.question_id)
+        )
+        result = await db.execute(query)
+        existing_answer = result.scalar_one_or_none()
+
+        if existing_answer:
+            # Обновление существующей записи
+            for key, value in vars(student_answer).items():
+                setattr(existing_answer, key, value)
+            await db.commit()
+            await db.refresh(existing_answer)
+            return existing_answer
+        else:
+            # Создание новой записи
+            new_answer = StudentAnswer(
+                student_id = student_answer.student_id,
+                question_id = student_answer.question_id,
+                answer = student_answer.answer
+            )
+            db.add(new_answer)
+            await db.commit()
+            await db.refresh(new_answer)
+            return new_answer

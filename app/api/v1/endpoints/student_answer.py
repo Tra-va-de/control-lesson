@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from schemas.student_answer import StudentAnswer, StudentAnswerCreate, StudentAnswerUpdate
+from schemas.student_answer import StudentAnswer, StudentAnswerCreate, StudentAnswerUpdate, StudentAnswerCreateOrUpdate
 from services.student_answer import StudentAnswerService
 from repositories.student_answer import StudentAnswerRepository
 from db.session import get_async_session
@@ -99,7 +99,7 @@ async def read_student_answers_by_question_id(
 
 @router.post("/student-answers/create-or-update", response_model=StudentAnswer)
 async def create_or_update_student_answer(
-    student_answer: StudentAnswer,
+    student_answer: StudentAnswerCreateOrUpdate,
     db: AsyncSession = Depends(get_async_session),
     service: StudentAnswerService = Depends(get_student_answer_service)
 ):
