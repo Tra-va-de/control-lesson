@@ -97,6 +97,19 @@ async def read_student_answers_by_question_id(
     return result
 
 
+@router.get("/student-answers/student-and-question/{student_id}/{question_id}", response_model=StudentAnswer)
+async def read_student_answer_by_student_and_question_id(
+    student_id: int,
+    question_id: int,
+    db: AsyncSession = Depends(get_async_session),
+    service: StudentAnswerService = Depends(get_student_answer_service)
+):
+    result = await service.get_by_student_and_question_id(db, student_id, question_id)
+    if result is None:
+        raise HTTPException(status_code=404, detail="Student answer not found")
+    return result
+
+
 @router.post("/student-answers/create-or-update", response_model=StudentAnswer)
 async def create_or_update_student_answer(
     student_answer: StudentAnswerCreateOrUpdate,

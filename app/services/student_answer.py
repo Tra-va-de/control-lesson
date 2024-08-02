@@ -39,6 +39,10 @@ class StudentAnswerService:
     async def get_by_question_id(self, db: AsyncSession, question_id: int) -> List[StudentAnswer]:
         return await self.repository.get_by_question_id(db, question_id)
     
+    @cache(expire=settings.CACHE_EXPIRE_IN_SECONDS)
+    async def get_by_student_and_question_id(self, db: AsyncSession, student_id: int, question_id: int) -> Optional[StudentAnswer]:
+        return await self.repository.get_by_student_and_question_id(db, student_id, question_id)
+    
     async def create_or_update_student_answer(self, db: AsyncSession, student_answer: StudentAnswerCreateOrUpdate) -> StudentAnswer:
         return await self.repository.create_or_update(db, student_answer)
     

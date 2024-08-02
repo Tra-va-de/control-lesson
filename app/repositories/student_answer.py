@@ -58,6 +58,13 @@ class StudentAnswerRepository:
         result = await db.execute(select(StudentAnswer).where(StudentAnswer.question_id == question_id))
         return result.scalars().all()
     
+    async def get_by_student_and_question_id(self, db: AsyncSession, student_id: int, question_id: int) -> Optional[StudentAnswer]:
+        result = await db.execute(select(StudentAnswer).where(
+            (StudentAnswer.student_id == student_id) &
+            (StudentAnswer.question_id == question_id)
+        ))
+        return result.scalars().first()
+    
     async def create_or_update(self, db: AsyncSession, student_answer: StudentAnswerCreateOrUpdate) -> StudentAnswer:
         # Поиск существующей записи
         query = select(StudentAnswer).where(
