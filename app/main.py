@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 
 from db.session import engine, Base
 from core.cache import init_cache
-from api.v1.endpoints import discipline, lesson_level, category, lesson, subject, question
+from api.v1.endpoints import discipline, lesson_level, category, lesson, subject, question, student
 
 
 def create_app() -> FastAPI:
@@ -30,12 +30,13 @@ def create_app() -> FastAPI:
     )
 
     # Подключаем роутеры для различных endpoints
-    app.include_router(discipline.router, prefix="/api/v1", tags=["Discipline"])
-    app.include_router(lesson_level.router, prefix="/api/v1", tags=["Lesson level"])
-    app.include_router(category.router, prefix="/api/v1", tags=["Category"])
-    app.include_router(lesson.router, prefix="/api/v1", tags=["Lesson"])
+    app.include_router(discipline.router, prefix="/api/v1", tags=["Disciplines"])
+    app.include_router(lesson_level.router, prefix="/api/v1", tags=["Lesson levels"])
+    app.include_router(category.router, prefix="/api/v1", tags=["Categories"])
+    app.include_router(lesson.router, prefix="/api/v1", tags=["Lessons"])
     app.include_router(subject.router, prefix="/api/v1", tags=["Subjects"])
     app.include_router(question.router, prefix="/api/v1", tags=["Questions"])
+    app.include_router(student.router, prefix="/api/v1", tags=["Students"])
 
     app.add_middleware(
         CORSMiddleware,

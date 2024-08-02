@@ -4,3 +4,4 @@ from .lesson import Lesson
 from .category import Category
 from .subject import Subject
 from .question import Question
+from .student import Student
