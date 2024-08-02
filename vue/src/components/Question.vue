@@ -8,8 +8,6 @@
 		id: Number
 	})
 
-	console.log(`Question ${props.id} rendered`);
-
 	const options = [
 		{
 			name: 'cancel',

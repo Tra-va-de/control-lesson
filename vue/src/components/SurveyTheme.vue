@@ -18,7 +18,7 @@
 			:key="index"
 			:title="question.text"
 			:answer="question.answer"
-			:type="type",
+			:type="type"
 			:id="question.id"
 		/>
 		</div>
