@@ -71,3 +71,36 @@ async def read_student_answers(
     if result is None:
         raise HTTPException(status_code=404, detail="Student answers not found")
     return result
+
+
+@router.get("/student-answers/student/{student_id}", response_model=List[StudentAnswer])
+async def read_student_answers_by_student_id(
+    student_id: int,
+    db: AsyncSession = Depends(get_async_session),
+    service: StudentAnswerService = Depends(get_student_answer_service)
+):
+    result = await service.get_by_student_id(db, student_id)
+    if result is None:
+        raise HTTPException(status_code=404, detail="Student answers not found")
+    return result
+
+
+@router.get("/student-answers/question/{question_id}", response_model=List[StudentAnswer])
+async def read_student_answers_by_question_id(
+    question_id: int,
+    db: AsyncSession = Depends(get_async_session),
+    service: StudentAnswerService = Depends(get_student_answer_service)
+):
+    result = await service.get_by_question_id(db, question_id)
+    if result is None:
+        raise HTTPException(status_code=404, detail="Student answers not found")
+    return result
+
+
+@router.post("/student-answers/create-or-update", response_model=StudentAnswer)
+async def create_or_update_student_answer(
+    student_answer: StudentAnswer,
+    db: AsyncSession = Depends(get_async_session),
+    service: StudentAnswerService = Depends(get_student_answer_service)
+):
+    return await service.create_or_update_student_answer(db, student_answer)

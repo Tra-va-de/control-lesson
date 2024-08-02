@@ -49,3 +49,17 @@ class StudentAnswerRepository:
     async def get_all(self, db: AsyncSession) -> List[StudentAnswer]:
         result = await db.execute(select(StudentAnswer))
         return result.scalars().all()
+    
+    async def get_by_student_id(self, db: AsyncSession, student_id: int) -> List[StudentAnswer]:
+        result = await db.execute(select(StudentAnswer).where(StudentAnswer.student_id == student_id))
+        return result.scalars().all()
+    
+    async def get_by_question_id(self, db: AsyncSession, question_id: int) -> List[StudentAnswer]:
+        result = await db.execute(select(StudentAnswer).where(StudentAnswer.question_id == question_id))
+        return result.scalars().all()
+    
+    async def create_or_update(self, db: AsyncSession, student_answer: StudentAnswer) -> StudentAnswer:
+        db_student_answer = await self.get(db, student_answer.id)
+        if not db_student_answer:
+            return await self.create(db, student_answer)
+        return await self.update(db, student_answer.id, student_answer)

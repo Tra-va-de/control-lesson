@@ -76,6 +76,55 @@ async def test_get_all_student_answers(client: AsyncClient):
 
 @pytest.mark.asyncio
 @pytest.mark.order(5)
+async def test_get_student_answer_by_student(client: AsyncClient, create_student: int):
+    student_id = create_student
+    print(f"student_id: {student_id}")
+    response = await client.get(f"/api/v1/student-answers/student/{student_id}")
+    print("Response status:", response.status_code)
+    print("Response JSON:", response.json())
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) > 0
+
+
+@pytest.mark.asyncio
+@pytest.mark.order(6)
+async def test_get_student_answer_by_question(client: AsyncClient, create_question: int):
+    question_id = create_question
+    print(f"question_id: {question_id}")
+    response = await client.get(f"/api/v1/student-answers/question/{question_id}")
+    print("Response status:", response.status_code)
+    print("Response JSON:", response.json())
+    assert response.status_code == 200
+    data = response.json()
+    assert len(data) > 0
+
+
+@pytest.mark.asyncio
+@pytest.mark.order(7)
+async def test_create_or_update_student_answer_before_delete(client: AsyncClient, create_question: int, create_student: int):
+    # Создание вопроса и студента
+    question_id = create_question
+    student_id = create_student
+    print(f"question_id: {question_id}, student_id: {student_id}")
+
+    student_answer_data = {
+        "student_id": student_id,
+        "question_id": question_id,
+        "answer": 0
+    }
+    response = await client.post("/api/v1/student-answers/", json=student_answer_data)
+    print("Response status:", response.status_code)
+    print("Response JSON:", response.json())
+    assert response.status_code == 200
+    data = response.json()
+    assert data["student_id"] == student_answer_data["student_id"]
+    assert data["question_id"] == student_answer_data["question_id"]
+    assert data["answer"] == student_answer_data["answer"]
+
+
+@pytest.mark.asyncio
+@pytest.mark.order(8)
 async def test_delete_student_answer(client: AsyncClient):
     response = await client.delete("/api/v1/student-answers/1")
     print("Response status:", response.status_code)
@@ -86,7 +135,30 @@ async def test_delete_student_answer(client: AsyncClient):
 
 
 @pytest.mark.asyncio
-@pytest.mark.order(6)
+@pytest.mark.order(9)
+async def test_create_or_update_student_answer_after_delete(client: AsyncClient, create_question: int, create_student: int):
+    # Создание вопроса и студента
+    question_id = create_question
+    student_id = create_student
+    print(f"question_id: {question_id}, student_id: {student_id}")
+
+    student_answer_data = {
+        "student_id": student_id,
+        "question_id": question_id,
+        "answer": 0
+    }
+    response = await client.post("/api/v1/student-answers/", json=student_answer_data)
+    print("Response status:", response.status_code)
+    print("Response JSON:", response.json())
+    assert response.status_code == 200
+    data = response.json()
+    assert data["student_id"] == student_answer_data["student_id"]
+    assert data["question_id"] == student_answer_data["question_id"]
+    assert data["answer"] == student_answer_data["answer"]
+
+
+@pytest.mark.asyncio
+@pytest.mark.order(10)
 async def test_get_non_existent_student_answer(client: AsyncClient):
     response = await client.get("/api/v1/student-answers/999")
     print("Response status:", response.status_code)

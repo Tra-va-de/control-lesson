@@ -31,6 +31,17 @@ class StudentAnswerService:
     async def get_all_student_answers(self, db: AsyncSession) -> List[StudentAnswer]:
         return await self.repository.get_all(db)
     
+    @cache(expire=settings.CACHE_EXPIRE_IN_SECONDS)
+    async def get_by_student_id(self, db: AsyncSession, student_id: int) -> List[StudentAnswer]:
+        return await self.repository.get_by_student_id(db, student_id)
+    
+    @cache(expire=settings.CACHE_EXPIRE_IN_SECONDS)
+    async def get_by_question_id(self, db: AsyncSession, question_id: int) -> List[StudentAnswer]:
+        return await self.repository.get_by_question_id(db, question_id)
+    
+    async def create_or_update_student_answer(self, db: AsyncSession, student_answer: StudentAnswer) -> StudentAnswer:
+        return await self.repository.create_or_update(db, student_answer)
+    
     async def invalidate_cache(self):
         # Метод для очистки кэша
         await FastAPICache.clear()
