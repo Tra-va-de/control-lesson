@@ -1,38 +1,38 @@
 <script setup>
-import { ref, watch } from 'vue'
+	import { ref, watch } from 'vue'
 
-const props = defineProps({
-  title: String,
-  studentPoints: Number,
-  maximumPoints: Number
-})
+	const props = defineProps({
+		title: String,
+		studentPoints: Number,
+		maximumPoints: Number
+	})
 
-const width = ref((props.studentPoints / props.maximumPoints) * 100)
+	const width = ref((props.studentPoints / props.maximumPoints) * 100)
 
-watch(
-  () => props.studentPoints,
-  () => {
-    width.value = (props.studentPoints / props.maximumPoints) * 100
-  }
-)
-watch(
-  () => props.maximumPoints,
-  () => {
-    width.value = (props.studentPoints / props.maximumPoints) * 100
-  }
-)
+	watch(
+		() => props.studentPoints,
+		() => {
+			width.value = (props.studentPoints / props.maximumPoints) * 100
+		}
+	)
+	watch(
+		() => props.maximumPoints,
+		() => {
+			width.value = (props.studentPoints / props.maximumPoints) * 100
+		}
+	)
 </script>
 
 <template>
-  <div class="success">
-    <h2 class="success__title">{{ title }}</h2>
+	<div class="success">
+		<h2 class="success__title">{{ title }}</h2>
 
-    <p class="success__points">{{ studentPoints }}/{{ maximumPoints }} {{ width.toFixed(2) }}%</p>
+		<p class="success__points">{{ studentPoints }}/{{ maximumPoints }} {{ width.toFixed(2) }}%</p>
 
-    <div class="success__line">
-      <div class="success__line-green"></div>
-    </div>
-  </div>
+		<div class="success__line">
+			<div class="success__line-green"></div>
+		</div>
+	</div>
 </template>
 
 <style scoped lang="scss">

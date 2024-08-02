@@ -42,7 +42,8 @@
 				if (subject.id === question.subject_id) {
 					questions.push({
 						text: question.text,
-						answer: question.answer
+						answer: question.answer,
+						id: question.id
 					})
 				}
 			}
@@ -59,33 +60,36 @@
 	const fetchLessonDetails = async (lessonId) => {
 		// Получаем урок
 		try {
-		// Номер урока
-		const lesson = lessonId
+			// Номер урока
+			const lesson = lessonId
 
-		// Получаем все темы теории и практики
-		const theorySubjects = await axios.get(apiEndpoint + '/subjects/lesson/' + lesson + '/category/1')
-		const practiceSubjects = await axios.get(apiEndpoint + '/subjects/lesson/' + lesson + '/category/2')
+			// Получаем все темы теории и практики
+			const theorySubjects = await axios.get(apiEndpoint + '/subjects/lesson/' + lesson + '/category/1')
+			const practiceSubjects = await axios.get(apiEndpoint + '/subjects/lesson/' + lesson + '/category/2')
 
-		// Перебираем все темы теории и получаем общий список вопросов
-		for (const subject of theorySubjects.data) {
-			const questions = await axios.get(apiEndpoint + '/questions/subject/' + subject.id)
-			theoryQuestionsArray.value.push(...questions.data)
-		}
+			// Перебираем все темы теории и получаем общий список вопросов
+			for (const subject of theorySubjects.data) {
+				const questions = await axios.get(apiEndpoint + '/questions/subject/' + subject.id)
+				theoryQuestionsArray.value.push(...questions.data)
+			}
 
-		// // Перебираем все темы практики и получаем общий список вопросов
-		for (const subject of practiceSubjects.data) {
-			const questions = await axios.get(apiEndpoint + '/questions/subject/' + subject.id)
-			practiceQuestionsArray.value.push(...questions.data)
-		}
+			// // Перебираем все темы практики и получаем общий список вопросов
+			for (const subject of practiceSubjects.data) {
+				const questions = await axios.get(apiEndpoint + '/questions/subject/' + subject.id)
+				practiceQuestionsArray.value.push(...questions.data)
+			}
 
-		// Связываем вопросы с темой в общий объект
-		theorySubjectsAndQuestions.value = generateSubjectsAndQuestions(theorySubjects.data, theoryQuestionsArray)
-		practiceSubjectsAndQuestions.value = generateSubjectsAndQuestions(
-			practiceSubjects.data,
-			practiceQuestionsArray
-		)
+			// Связываем вопросы с темой в общий объект
+			theorySubjectsAndQuestions.value = generateSubjectsAndQuestions(
+				theorySubjects.data, 
+				theoryQuestionsArray
+			)
+			practiceSubjectsAndQuestions.value = generateSubjectsAndQuestions(
+				practiceSubjects.data,
+				practiceQuestionsArray
+			)
 		} catch (error) {
-		console.log(error)
+			console.log(error)
 		}
 	}
 
@@ -105,34 +109,34 @@
 	watch(
 		() => props.lessonId,
 		async (newLessonId) => {
-		if (newLessonId) {
-			await fetchLessonDetails(newLessonId);
-		}
+			if (newLessonId) {
+				await fetchLessonDetails(newLessonId);
+			}
 		},
 		{ immediate: true }
 	);
 </script>
 
 <template>
-  <section class="summary">
-    <SuccessLine
-      title="Теория"
-      :studentPoints="theoryStudentPoints"
-      :maximumPoints="theoryQuestionsCount"
-    />
-    <SuccessLine
-      title="Практика"
-      :studentPoints="practiceStudentPoints"
-      :maximumPoints="practiceQuestionsCount"
-    />
+	<section class="summary">
+		<SuccessLine
+			title="Теория"
+			:studentPoints="theoryStudentPoints"
+			:maximumPoints="theoryQuestionsCount"
+		/>
+		<SuccessLine
+			title="Практика"
+			:studentPoints="practiceStudentPoints"
+			:maximumPoints="practiceQuestionsCount"
+		/>
 
-    <ThePersonalQualities />
+		<ThePersonalQualities />
 
-    <TheOptions />
+		<TheOptions />
 
-    <Survey title="Теория" type="theory" :questionsArray="theorySubjectsAndQuestions" v-auto-animate />
-    <Survey title="Практика" type="practice" :questionsArray="practiceSubjectsAndQuestions" v-auto-animate />
-  </section>
+		<Survey title="Теория" type="theory" :questionsArray="theorySubjectsAndQuestions" v-auto-animate />
+		<Survey title="Практика" type="practice" :questionsArray="practiceSubjectsAndQuestions" v-auto-animate />
+	</section>
 </template>
 
 <style scoped></style>

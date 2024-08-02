@@ -1,29 +1,60 @@
 <script setup>
-import { ref, inject } from 'vue'
+	import { ref, inject, onMounted } from 'vue'
+	import axios from 'axios'
 
-import Option from './Option.vue'
+	import Option from './Option.vue'
 
-const props = defineProps({
-  options: Array,
-  themeType: String
-})
+	const apiEndpoint = import.meta.env.VITE_PRIVATE_API_ENDPOINT
 
-const selectedOption = ref(0)
-const isDropDownVisible = ref(false)
+	const props = defineProps({
+		options: Array,
+		themeType: String,
+		questionId: Number
+	})
 
-const selectOption = (option) => {
-  if (props.themeType == 'theory') {
-    theoryStudentPoints.value += option.value - selectedOption.value
-  } else if (props.themeType === 'practice') {
-    practiceStudentPoints.value += option.value - selectedOption.value
-  }
+	const selectedOption = ref(0)
+	const isDropDownVisible = ref(false)
 
-  selectedOption.value = option.value
-  isDropDownVisible.value = false
-}
+	const selectOption = (option) => {
+		if (props.themeType == 'theory') {
+			theoryStudentPoints.value += option.value - selectedOption.value
+		} else if (props.themeType === 'practice') {
+			practiceStudentPoints.value += option.value - selectedOption.value
+		}
 
-const theoryStudentPoints = inject('theoryStudentPoints')
-const practiceStudentPoints = inject('practiceStudentPoints')
+		selectedOption.value = option.value
+		isDropDownVisible.value = false
+
+		axios.post(apiEndpoint + '/student-answers/create-or-update/', {
+			student_id: selectedStudent.value.id,
+			question_id: props.questionId,
+			answer: option.value
+		})
+	}
+
+	const theoryStudentPoints = inject('theoryStudentPoints')
+	const practiceStudentPoints = inject('practiceStudentPoints')
+
+	const selectedStudent = inject('selectedStudent')
+
+	const fetchStudentAnswer = async () => {
+		try {
+			const response = await axios.get(
+				apiEndpoint + '/student-answers/student-and-question/' + selectedStudent.value.id + '/' + props.questionId
+			)
+			selectedOption.value = response.data.answer
+
+			if (props.themeType == 'theory') {
+				theoryStudentPoints.value += selectedOption.value
+			} else if (props.themeType === 'practice') {
+				practiceStudentPoints.value += selectedOption.value
+			}
+		} catch (error) {
+			console.error('Failed to fetch student answer:', error)
+		}
+	}
+
+	onMounted(fetchStudentAnswer)
 </script>
 
 <template>
