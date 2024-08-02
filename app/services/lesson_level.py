@@ -1,6 +1,5 @@
 from typing import List, Optional
 
-from fastapi import Depends
 from fastapi_cache import FastAPICache
 from fastapi_cache.decorator import cache
 
