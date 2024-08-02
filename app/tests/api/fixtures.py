@@ -90,3 +90,46 @@ async def create_subject(client: AsyncClient, create_category_and_lesson: tuple[
     subject_id = data["id"]
 
     return subject_id
+
+
+@pytest.fixture(scope="session")
+async def create_question(client: AsyncClient, create_subject: int):
+    subject_id = create_subject
+    print(f"subject_id: {subject_id}")
+
+    question = {
+        "subject_id": subject_id,
+        "text": "Test question",
+        "answer": "Test answer"
+    }
+    response = await client.post("/api/v1/questions/", json=question)
+    print("Response status:", response.status_code)
+    print("Response JSON:", response.json())
+    assert response.status_code == 200
+    data = response.json()
+    assert data["subject_id"] == question["subject_id"]
+    assert data["text"] == question["text"]
+    assert data["answer"] == question["answer"]
+    question_id = data["id"]
+
+    return question_id
+
+
+@pytest.fixture(scope="session")
+async def create_student(client: AsyncClient):
+    student = {
+        "first_name": "Семён",
+        "last_name": "Семёнов",
+        "date_of_birth": "2002-01-01",
+    }
+    response = await client.post("/api/v1/students/", json=student)
+    print("Response status:", response.status_code)
+    print("Response JSON:", response.json())
+    assert response.status_code == 200
+    data = response.json()
+    assert data["first_name"] == student["first_name"]
+    assert data["last_name"] == student["last_name"]
+    assert data["date_of_birth"] == student["date_of_birth"]
+    student_id = data["id"]
+
+    return student_id

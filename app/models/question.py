@@ -13,3 +13,5 @@ class Question(Base):
     subject_id = Column(Integer, ForeignKey("subjects.id"), nullable=False)
 
     subject = relationship("Subject", back_populates="questions")
+    
+    student_answers = relationship("StudentAnswer", back_populates="question")

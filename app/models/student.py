@@ -10,3 +10,5 @@ class Student(Base):
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
     date_of_birth = Column(Date, nullable=False)
+
+    student_answers = relationship("StudentAnswer", back_populates="student")

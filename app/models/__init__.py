@@ -5,3 +5,4 @@ from .category import Category
 from .subject import Subject
 from .question import Question
 from .student import Student
+from .student_answer import StudentAnswer
