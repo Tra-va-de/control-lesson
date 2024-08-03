@@ -15,7 +15,7 @@
 	const selectedOption = ref(0)
 	const isDropDownVisible = ref(false)
 
-	const selectOption = (option) => {
+	const selectOption = async (option) => {
 		if (props.themeType == 'theory') {
 			theoryStudentPoints.value += option.value - selectedOption.value
 		} else if (props.themeType === 'practice') {
@@ -25,7 +25,7 @@
 		selectedOption.value = option.value
 		isDropDownVisible.value = false
 
-		axios.post(apiEndpoint + '/student-answers/create-or-update/', {
+		await axios.post(apiEndpoint + '/student-answers/create-or-update/', {
 			student_id: selectedStudent.value.id,
 			question_id: props.questionId,
 			answer: option.value
