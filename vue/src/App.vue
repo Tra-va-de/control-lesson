@@ -1,9 +1,9 @@
 <script setup>
-	import ControlLessonPage from './pages/ControlLessonPage.vue'
+	import Home from '@/pages/Home.vue'
 </script>
 
 <template>
-  	<ControlLessonPage />
+  	<Home />
 </template>
 
 <style scoped></style>
