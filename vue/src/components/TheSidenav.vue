@@ -100,65 +100,65 @@
 </template>
   
 <style scoped lang="scss">
-  .sidenav {
-    background-color: var(--extra-light-gray);
-    box-sizing: border-box !important;
+    .sidenav {
+        background-color: var(--extra-light-gray);
+        box-sizing: border-box !important;
 
-    width: 0;
-    height: 100dvh;
-    padding: 20px;
+        width: 0;
+        height: 100dvh;
+        padding: 20px;
 
-    border: var(--border);
-    border-radius: 0 20px 20px 0;
-    user-select: none;
+        border: var(--border);
+        border-radius: 0 20px 20px 0;
+        user-select: none;
 
-    position: fixed;
-    top: 0;
-    left: 0;
-    overflow: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+        overflow: hidden;
 
-    opacity: 0;
-    
-    transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
-    
-    &:hover {
-        width: 300px;
-        opacity: 1;
-    }
-
-    &__item{
-        transition: transform 0.3s ease-in-out;
-
+        opacity: 0;
+        
+        transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        
         &:hover {
-            transform: translateY(-3px);
+            width: 300px;
+            opacity: 1;
         }
-    }
 
-    &__item  &__item {
-        margin-left: 20px;
-    }
+        &__item{
+            transition: transform 0.3s ease-in-out;
 
-    &__discipline-title,
-    &__level-title,
-    &__lesson-name {
-        display: block;
-        margin-bottom: 10px;
-        font-weight: 400;
-        font-size: 14px;
-        cursor: pointer;
-        white-space: nowrap;
+            &:hover {
+                transform: translateY(-3px);
+            }
+        }
 
-        &::after {
-            content: '';
+        &__item  &__item {
+            margin-left: 20px;
+        }
 
+        &__discipline-title,
+        &__level-title,
+        &__lesson-name {
             display: block;
-            width: 100%;
-            height: 1px;
+            margin-bottom: 10px;
+            font-weight: 400;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
 
-            margin-top: 10px;
+            &::after {
+                content: '';
 
-            background-color: var(--light-gray);
+                display: block;
+                width: 100%;
+                height: 1px;
+
+                margin-top: 10px;
+
+                background-color: var(--light-gray);
+            }
         }
     }
-  }
 </style>
