@@ -3,6 +3,7 @@
 	import axios from 'axios'
 
 	import TheHeader from '../components/TheHeader.vue'
+	import LessonHeaderContent from '../components/LessonHeaderContent.vue'
 	import TheMain from '../components/TheMain.vue'
 	import Summary from '../components/Summary.vue'
 	import TheSidenav from '../components/TheSidenav.vue'
@@ -38,11 +39,14 @@
 <template>
 	<TheSidenav :onLessonSelected="handleLessonSelected" />
 
-	<TheHeader 
-		:lessonId="selectedLesson ? selectedLesson : 1"
-		:student-name="selectedStudent ? `${selectedStudent.first_name} ${selectedStudent.last_name}` : ''"
-		:lessonsLassed="2" 
-		initialDate="01.01.2022" />
+	<TheHeader>
+		<LessonHeaderContent
+			:lessonId="selectedLesson ? selectedLesson : 1"
+			:student-name="selectedStudent ? `${selectedStudent.first_name} ${selectedStudent.last_name}` : ''"
+			:lessonsLassed="2" 
+			initialDate="01.01.2022" 
+		/>
+	</TheHeader>
 
 	<TheMain v-if="selectedStudent && selectedLesson">
 		<Summary :lessonId="selectedLesson" />
