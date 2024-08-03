@@ -78,39 +78,39 @@
 </template>
 
 <style scoped lang="scss">
-.header {
-  background-color: var(--bg-color);
-  color: white;
-  padding: 25px;
-  border-radius: 20px;
+	.header {
+		background-color: var(--bg-color);
+		color: white;
+		padding: 25px;
+		border-radius: 20px;
 
-  &__lesson-name {
-    font-size: 22px;
-    font-weight: 500;
-    padding-bottom: 20px;
-  }
+		&__lesson-name {
+			font-size: 22px;
+			font-weight: 500;
+			padding-bottom: 20px;
+		}
 
-  &__student-info li {
-    font-size: 17px;
-    line-height: 24px;
+		&__student-info li {
+			font-size: 17px;
+			line-height: 24px;
 
-    display: flex;
-    align-items: center;
-    column-gap: 10px;
-  }
+			display: flex;
+			align-items: center;
+			column-gap: 10px;
+		}
 
-  &__update-date-btn {
-    background-color: green;
-    color: white;
+		&__update-date-btn {
+			background-color: green;
+			color: white;
 
-    border: none;
-    border-radius: 50%;
-    
-    width: 24px;
-    height: 24px;
-    
-    cursor: pointer;
-    font-size: 14px;
-  }
-}
+			border: none;
+			border-radius: 50%;
+			
+			width: 24px;
+			height: 24px;
+			
+			cursor: pointer;
+			font-size: 14px;
+		}
+	}
 </style>

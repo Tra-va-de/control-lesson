@@ -58,66 +58,68 @@
 </script>
 
 <template>
-  <div class="drop-down-wrapper" :class="{ open: isDropDownVisible }" v-auto-animate>
-    <div class="drop-down-selected" @click="isDropDownVisible = !isDropDownVisible">
-      <div class="selected-option" v-for="(option, index) in options" :key="index">
-        <Option
-          v-if="option.value === selectedOption"
-          :name="option.name"
-          :text="option.text"
-          :color="option.color"
-        />
-      </div>
-    </div>
+	<div class="drop-down-wrapper" :class="{ open: isDropDownVisible }" v-auto-animate>
+		<div class="drop-down-selected" @click="isDropDownVisible = !isDropDownVisible">
+			<div class="selected-option" v-for="(option, index) in options" :key="index">
+				<Option
+					v-if="option.value === selectedOption"
+					:name="option.name"
+					:text="option.text"
+					:color="option.color"
+				/>
+			</div>
+		</div>
 
-    <div class="option-wrapper" v-if="isDropDownVisible">
-      <div
-        class="option"
-        v-for="(option, index) in options"
-        :key="index"
-        @click="selectOption(option)"
-      >
-        <Option :name="option.name" :text="option.text" :color="option.color"></Option>
-      </div>
-    </div>
-  </div>
+		<div class="option-wrapper" v-if="isDropDownVisible">
+			<div
+				class="option"
+				v-for="(option, index) in options"
+				:key="index"
+				@click="selectOption(option)"
+			>
+				<Option :name="option.name" :text="option.text" :color="option.color"></Option>
+			</div>
+		</div>
+	</div>
 </template>
 
 <style scoped lang="scss">
-.drop-down-wrapper {
-  border-radius: 5px;
-  overflow: hidden;
+	.drop-down-wrapper {
+		border-radius: 5px;
+		overflow: hidden;
 
-  &.open {
-    border: var(--border);
-  }
-}
+		&.open {
+			border: var(--border);
+		}
+	}
 
-.drop-down-selected {
-  padding: 5px;
+	.drop-down-selected {
+		padding: 5px;
 
-  &:hover {
-    cursor: pointer;
-    background-color: var(--light-gray);
-  }
-}
-.option-wrapper {
-  padding-top: 10px;
+		&:hover {
+			cursor: pointer;
+			background-color: var(--light-gray);
+		}
+	}
 
-  border-top: var(--border);
+	.option-wrapper {
+		padding-top: 10px;
 
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+		border-top: var(--border);
 
-  background-color: white;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 
-  & > * {
-    padding: 5px;
-    &:hover {
-      cursor: pointer;
-      background-color: var(--light-gray);
-    }
-  }
-}
+		background-color: white;
+
+		& > * {
+			padding: 5px;
+
+			&:hover {
+				cursor: pointer;
+				background-color: var(--light-gray);
+			}
+		}
+	}
 </style>
