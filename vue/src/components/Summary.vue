@@ -1,5 +1,5 @@
 <script setup>
-	import { provide, ref, watch } from 'vue'
+	import { provide, ref, watch, inject } from 'vue'
 	import axios from 'axios'
 
 	import SuccessLine from './SuccessLine.vue'
@@ -9,12 +9,7 @@
 
 	const apiEndpoint = import.meta.env.VITE_PRIVATE_API_ENDPOINT
 
-	const props = defineProps({
-		lessonId: {
-			type: Number,
-			required: true
-		}
-	})
+	const selectedLesson = inject('selectedLesson')
 
 	const theoryQuestionsArray = ref([])
 	const practiceQuestionsArray = ref([])
@@ -107,7 +102,7 @@
 		}
 	)
 	watch(
-		() => props.lessonId,
+		() => selectedLesson.value,
 		async (newLessonId) => {
 			if (newLessonId) {
 				await fetchLessonDetails(newLessonId);
