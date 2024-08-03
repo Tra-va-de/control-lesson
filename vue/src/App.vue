@@ -1,9 +1,9 @@
 <script setup>
-import ControlLessonPage from './pages/ControlLessonPage.vue'
+	import ControlLessonPage from './pages/ControlLessonPage.vue'
 </script>
 
 <template>
-  <ControlLessonPage />
+  	<ControlLessonPage />
 </template>
 
 <style scoped></style>
