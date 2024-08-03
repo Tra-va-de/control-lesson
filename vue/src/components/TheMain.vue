@@ -10,7 +10,7 @@
 	.main {
 		border: var(--border);
 		border-radius: 20px;
-		padding: 20px;
-		margin-top: 20px;
+		padding: var(--padding);
+		margin-top: var(--padding);
 	}
 </style>

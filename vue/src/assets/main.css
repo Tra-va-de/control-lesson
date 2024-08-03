@@ -16,6 +16,7 @@
   --text-color: var(--black);
   --text-color-light: var(--gray);
   --border: 1px solid var(--light-gray);
+  --padding: 20px;
 }
 
 #app {
