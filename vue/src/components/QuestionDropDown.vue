@@ -2,7 +2,7 @@
 	import { ref, inject, onMounted } from 'vue'
 	import axios from 'axios'
 
-	import Option from './Option.vue'
+	import AnswerOption from './AnswerOption.vue'
 
 	const apiEndpoint = import.meta.env.VITE_PRIVATE_API_ENDPOINT
 
@@ -61,7 +61,7 @@
 	<div class="drop-down-wrapper" :class="{ open: isDropDownVisible }" v-auto-animate>
 		<div class="drop-down-selected" @click="isDropDownVisible = !isDropDownVisible">
 			<div class="selected-option" v-for="(option, index) in options" :key="index">
-				<Option
+				<AnswerOption
 					v-if="option.value === selectedOption"
 					:name="option.name"
 					:text="option.text"
@@ -77,7 +77,7 @@
 				:key="index"
 				@click="selectOption(option)"
 			>
-				<Option :name="option.name" :text="option.text" :color="option.color"></Option>
+				<AnswerOption :name="option.name" :text="option.text" :color="option.color" />
 			</div>
 		</div>
 	</div>

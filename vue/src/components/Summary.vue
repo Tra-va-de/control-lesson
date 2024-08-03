@@ -4,7 +4,7 @@
 
 	import SuccessLine from './SuccessLine.vue'
 	import ThePersonalQualities from './ThePersonalQualities.vue'
-	import TheOptions from './TheOptions.vue'
+	import TheAnswerOptions from './TheAnswerOptions.vue'
 	import Survey from './Survey.vue'
 
 	const apiEndpoint = import.meta.env.VITE_PRIVATE_API_ENDPOINT
@@ -132,7 +132,7 @@
 
 		<ThePersonalQualities />
 
-		<TheOptions />
+		<TheAnswerOptions />
 
 		<Survey title="Теория" type="theory" :questionsArray="theorySubjectsAndQuestions" v-auto-animate />
 		<Survey title="Практика" type="practice" :questionsArray="practiceSubjectsAndQuestions" v-auto-animate />
