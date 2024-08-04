@@ -100,10 +100,12 @@
         color: var(--white);
         background-color: transparent;
 
-        transition: background-color 0.2s ease-in-out;
+        transition: background-color 0.2s ease-in-out,
+                    scale 0.2s ease-in-out;
 
         &:hover {
-            background-color: var(--light);
+            background-color: rgba(255, 255, 255, 0.1);
+            scale: 1.1;
         }
     }
 
