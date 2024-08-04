@@ -1,11 +1,13 @@
 <script setup>
-    import { onMounted, nextTick } from 'vue'
+    import { onMounted, nextTick, ref } from 'vue'
 
     import TheHeader from '../components/TheHeader.vue'
     import TheMain from '../components/TheMain.vue'
 
     import StudentsList from './StudentsList.vue'
     import LessonsList from './LessonsList.vue'
+
+    const studentIsSelected = ref(false)
 
     // Функция, которая будет вызываться при загрузке студентов
     const handleStudentsLoaded = () => {
@@ -35,10 +37,12 @@
             // Проверяем, какой контейнер открыт
             if (studentContainer.classList.contains('selected')) {
                 maxHeight = lessonContainer.offsetHeight
+                studentIsSelected.value = true
             } else {
                 maxHeight = studentContainer.offsetHeight
+                studentIsSelected.value = false
             }
-
+            
             // Устанавливаем размеры родителя
             selectContainer.style.height = `${maxHeight}px`
         }
@@ -54,7 +58,10 @@
 
 <template>
     <TheHeader>
-        <h1>Выбор урока</h1>
+        <div class="header-content">
+            <button v-if="studentIsSelected" class="back-btn" @click="changeSlide">↶</button>
+            <h1 class="header-title">{{ studentIsSelected ? 'Выбор урока' : 'Выбор студента' }}</h1>
+        </div>
     </TheHeader>
 
     <TheMain>
@@ -64,7 +71,6 @@
             </div>
             
             <div class="select__lessons">
-                <button class="btn" @click="changeSlide">Назад</button>
                 <LessonsList @click="adjustParentSize" />
             </div>
         </div>
@@ -72,6 +78,35 @@
 </template>
 
 <style scoped lang="scss">
+    .header-content {
+        display: flex;
+        align-items: center;
+        gap: var(--padding);
+    }
+
+    .back-btn {
+        font-size: 18px;
+        font-weight: 700;
+
+        width: 35px;
+        padding: 5px 2px 2px;
+        aspect-ratio: 1;
+
+        border: var(--border);
+        border-width: 2px;
+        border-radius: 50%;
+        outline: none;
+
+        color: var(--white);
+        background-color: transparent;
+
+        transition: background-color 0.2s ease-in-out;
+
+        &:hover {
+            background-color: var(--light);
+        }
+    }
+
     .select {
         position: relative;
 
