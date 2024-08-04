@@ -9,7 +9,7 @@
 
     // Функция, которая будет вызываться при загрузке студентов
     const handleStudentsLoaded = () => {
-        console.log('Students loaded:');
+        // console.log('Students loaded:');
         nextTick(() => {
             adjustParentSize();
         });

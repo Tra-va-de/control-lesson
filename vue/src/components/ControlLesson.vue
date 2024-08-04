@@ -1,7 +1,4 @@
 <script setup>
-	// import { inject, onMounted } from 'vue'
-	// import axios from 'axios'
-
 	import { inject } from 'vue'
 
 	import TheHeader from '../components/TheHeader.vue'
@@ -11,27 +8,8 @@
 	import TheSidenav from '../components/TheSidenav.vue'
 	import LessonsList from '../components/LessonsList.vue'
 
-	// const apiEndpoint = import.meta.env.VITE_PRIVATE_API_ENDPOINT
-
 	const selectedStudent = inject('selectedStudent');
 	const selectedLesson = inject('selectedLesson');
-
-	// const handleStudentSelected = (data) => {
-	// 	selectedStudent.value = data;
-	// }
-
-	// const fetchStudentData = async () => {
-	// 	try {
-	// 		const studentId = selectedStudent.value;
-	// 		const response = await axios.get(`${apiEndpoint}/students/${studentId}`);
-	// 		handleStudentSelected(response.data);
-	// 		console.log(response.data);
-	// 	} catch (error) {
-	// 		console.error('Failed to fetch student data:', error);
-	// 	}
-	// };
-
-	// onMounted(fetchStudentData);
 </script>
 
 <template>
@@ -41,8 +19,8 @@
 
 	<TheHeader>
 		<LessonHeaderContent
-			:lessonId="selectedLesson ? selectedLesson : 1"
-			:student-name="selectedStudent ? `${selectedStudent.first_name} ${selectedStudent.last_name}` : ''"
+			:lessonId="selectedLesson"
+			:student-name="`${selectedStudent.first_name} ${selectedStudent.last_name}`"
 			:lessonsLassed="2" 
 			initialDate="01.01.2022" 
 		/>

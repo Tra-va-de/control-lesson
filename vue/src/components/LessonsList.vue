@@ -95,6 +95,10 @@
 </template>
   
 <style scoped lang="scss">
+    .wrapper {
+        padding-top: var(--padding);
+    }
+
     .item{
         transition: transform 0.3s ease-in-out;
 

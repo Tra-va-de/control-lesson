@@ -22,7 +22,7 @@
     const fetchStudentsData = async () => {
         try {
             const response = await axios.get(`${apiEndpoint}/students/`);
-            console.log(response.data);
+            // console.log(response.data);
             students.value = response.data;
 
             // Вызываем событие, когда данные загружены
@@ -49,6 +49,10 @@
 </template>
 
 <style scoped>
+    .wrapper {
+        padding-block: calc(var(--padding) / 2);
+    }
+
     .item {
         cursor: pointer;
 
