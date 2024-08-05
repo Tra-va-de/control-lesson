@@ -52,6 +52,8 @@
     const toggleLevel = (disciplineId, levelId) => {
         const key = `${disciplineId}-${levelId}`;
         expandedLevels[key] = !expandedLevels[key];
+
+        toggleDiscipline(disciplineId);
     };
 
     const isExpanded = (disciplineId) => {
@@ -70,21 +72,21 @@
 
 <template>
     <div class="wrapper">
-        <div class="discipline item" v-for="discipline in disciplines" :key="discipline.id">
-            <h3 class="discipline-title" @click="toggleDiscipline(discipline.id)">
+        <div class="discipline item" v-for="discipline in disciplines" :key="discipline.id" @click="toggleDiscipline(discipline.id)">
+            <h3 class="discipline-title">
                 {{ discipline.name }}
                 <span class="toggle-icon">{{ isExpanded(discipline.id) ? '-' : '+' }}</span>
             </h3>
             <div class="levels" v-if="isExpanded(discipline.id)">
-                <div class="level item" v-for="level in getLevelsByDiscipline(discipline.id)" :key="level.id">
-                    <h4 class="level-title" @click="toggleLevel(discipline.id, level.id)">
+                <div class="level item" v-for="level in getLevelsByDiscipline(discipline.id)" :key="level.id" @click="toggleLevel(discipline.id, level.id)">
+                    <h4 class="level-title">
                         {{ level.name }}
                         <span class="toggle-icon">{{ isLevelExpanded(discipline.id, level.id) ? '-' : '+' }}</span>
                     </h4>
-                    <div class="lessons item" v-if="isLevelExpanded(discipline.id, level.id)">
+                    <div class="lessons" v-if="isLevelExpanded(discipline.id, level.id)">
                         <ul class="lesson-list">
-                            <li class="lesson" v-for="lesson in getLessonsByDisciplineAndLevel(discipline.id, level.id)" :key="lesson.id">
-                                <p class="lesson-name" @click.prevent="selectLesson(lesson.id)">{{ lesson.name }}</p>
+                            <li class="lesson item" v-for="lesson in getLessonsByDisciplineAndLevel(discipline.id, level.id)" :key="lesson.id" @click.stop="selectLesson(lesson.id)">
+                                <p class="lesson-name">{{ lesson.name }}</p>
                             </li>
                         </ul>
                     </div>

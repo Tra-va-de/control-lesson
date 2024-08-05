@@ -40,8 +40,8 @@
 
 <template>
     <div class="wrapper">
-        <div class="student item" v-for="student in students" :key="student.id">
-            <p class="student-name" @click.prevent="selectStudent(student)">
+        <div class="student item" v-for="student in students" :key="student.id" @click.prevent="selectStudent(student)">
+            <p class="student-name">
                 {{ student.first_name }} {{ student.last_name }}
             </p>
         </div>
