@@ -13,14 +13,14 @@
 		<h3 class="subject__title">{{ subject }}</h3>
 
 		<div class="subject__questions">
-		<Question
-			v-for="(question, index) in questions"
-			:key="index"
-			:title="question.text"
-			:answer="question.answer"
-			:type="type"
-			:id="question.id"
-		/>
+			<Question
+				v-for="(question, index) in questions"
+				:key="index"
+				:title="question.text"
+				:answer="question.answer"
+				:type="type"
+				:id="question.id"
+			/>
 		</div>
 	</div>
 </template>
