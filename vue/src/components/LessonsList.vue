@@ -20,17 +20,17 @@
     });
 
     const fetchDisciplines = async () => {
-        const response = await axios.get(apiEndpoint + '/disciplines');
+        const response = await axios.get(apiEndpoint + '/disciplines/');
         disciplines.value = response.data;
     };
 
     const fetchLevels = async () => {
-        const response = await axios.get(apiEndpoint + '/lesson-levels');
+        const response = await axios.get(apiEndpoint + '/lesson-levels/');
         levels.value = response.data;
     };
 
     const fetchLessons = async () => {
-        const response = await axios.get(apiEndpoint + '/lessons');
+        const response = await axios.get(apiEndpoint + '/lessons/');
         lessons.value = response.data;
     };
 
