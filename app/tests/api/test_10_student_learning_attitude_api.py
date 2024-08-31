@@ -80,7 +80,8 @@ async def test_get_student_learning_attitudes_by_student(client: AsyncClient, cr
     print("Response JSON:", response.json())
     assert response.status_code == 200
     data = response.json()
-    assert isinstance(data, list)
+    assert data["student_id"] == student_id
+    assert data["rating"] == 2
 
 
 @pytest.mark.asyncio
@@ -92,11 +93,26 @@ async def test_get_student_learning_attitudes_by_learning_attitude(client: Async
     print("Response JSON:", response.json())
     assert response.status_code == 200
     data = response.json()
-    assert isinstance(data, list)
+    assert data["learning_attitude_id"] == learning_attitude_id
+    assert data["rating"] == 2
 
 
 @pytest.mark.asyncio
 @pytest.mark.order(7)
+async def test_get_student_learning_attitude_by_student_and_learning_attitude(client: AsyncClient, create_student: int, create_learning_attitude: int):
+    student_id, learning_attitude_id = create_student, create_learning_attitude
+    response = await client.get(f"/api/v1/student-learning-attitudes/student-and-learning-attitude/{student_id}/{learning_attitude_id}")
+    print("Response status:", response.status_code)
+    print("Response JSON:", response.json())
+    assert response.status_code == 200
+    data = response.json()
+    assert data["student_id"] == student_id
+    assert data["learning_attitude_id"] == learning_attitude_id
+    assert data["rating"] == 2
+
+
+@pytest.mark.asyncio
+@pytest.mark.order(8)
 async def test_get_non_existent_student_learning_attitude(client: AsyncClient):
     response = await client.get("/api/v1/student-learning-attitudes/999")
     print("Response status:", response.status_code)
@@ -106,7 +122,7 @@ async def test_get_non_existent_student_learning_attitude(client: AsyncClient):
 
 
 @pytest.mark.asyncio
-@pytest.mark.order(8)
+@pytest.mark.order(9)
 async def test_delete_student_learning_attitude(client: AsyncClient, create_student: int, create_learning_attitude: int):
     student_id, learning_attitude_id = create_student, create_learning_attitude
     response = await client.delete("/api/v1/student-learning-attitudes/1")

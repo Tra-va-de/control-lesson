@@ -50,10 +50,14 @@ class StudentLearningAttitudeRepository:
         result = await db.execute(select(StudentLearningAttitude))
         return result.scalars().all()
 
-    async def get_by_student_id(self, db: AsyncSession, student_id: int) -> List[StudentLearningAttitude]:
+    async def get_by_student_id(self, db: AsyncSession, student_id: int) -> StudentLearningAttitude:
         result = await db.execute(select(StudentLearningAttitude).filter(StudentLearningAttitude.student_id == student_id))
-        return result.scalars().all()
+        return result.scalars().first()
 
-    async def get_by_learning_attitude_id(self, db: AsyncSession, learning_attitude_id: int) -> List[StudentLearningAttitude]:
+    async def get_by_learning_attitude_id(self, db: AsyncSession, learning_attitude_id: int) -> StudentLearningAttitude:
         result = await db.execute(select(StudentLearningAttitude).filter(StudentLearningAttitude.learning_attitude_id == learning_attitude_id))
-        return result.scalars().all()
+        return result.scalars().first()
+    
+    async def get_by_student_id_and_learning_attitude_id(self, db: AsyncSession, student_id: int, learning_attitude_id: int) -> StudentLearningAttitude:
+        result = await db.execute(select(StudentLearningAttitude).filter(StudentLearningAttitude.student_id == student_id, StudentLearningAttitude.learning_attitude_id == learning_attitude_id))
+        return result.scalars().first()

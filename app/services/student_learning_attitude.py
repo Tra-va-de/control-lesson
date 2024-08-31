@@ -41,14 +41,19 @@ class StudentLearningAttitudeService:
         return [StudentLearningAttitude.model_validate(attitude) for attitude in result]
 
     @cache(expire=settings.CACHE_EXPIRE_IN_SECONDS)
-    async def get_student_learning_attitudes_by_student_id(self, db: AsyncSession, student_id: int) -> List[StudentLearningAttitude]:
+    async def get_student_learning_attitudes_by_student_id(self, db: AsyncSession, student_id: int) -> StudentLearningAttitude:
         result = await self.repository.get_by_student_id(db, student_id)
-        return [StudentLearningAttitude.model_validate(attitude) for attitude in result]
+        return StudentLearningAttitude.model_validate(result) if result else None
 
     @cache(expire=settings.CACHE_EXPIRE_IN_SECONDS)
-    async def get_student_learning_attitudes_by_learning_attitude_id(self, db: AsyncSession, learning_attitude_id: int) -> List[StudentLearningAttitude]:
+    async def get_student_learning_attitudes_by_learning_attitude_id(self, db: AsyncSession, learning_attitude_id: int) -> StudentLearningAttitude:
         result = await self.repository.get_by_learning_attitude_id(db, learning_attitude_id)
-        return [StudentLearningAttitude.model_validate(attitude) for attitude in result]
+        return StudentLearningAttitude.model_validate(result) if result else None
+    
+    @cache(expire=settings.CACHE_EXPIRE_IN_SECONDS)
+    async def get_student_learning_attitudes_by_student_and_learning_attitude_id(self, db: AsyncSession, student_id: int, learning_attitude_id: int) -> StudentLearningAttitude:
+        result = await self.repository.get_by_student_id_and_learning_attitude_id(db, student_id, learning_attitude_id)
+        return StudentLearningAttitude.model_validate(result) if result else None
 
     async def invalidate_cache(self):
         # Метод для очистки кэша
