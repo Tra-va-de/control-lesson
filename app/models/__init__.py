@@ -6,3 +6,5 @@ from .subject import Subject
 from .question import Question
 from .student import Student
 from .student_answer import StudentAnswer
+from .learning_attitude import LearningAttitude
+from .student_learning_attitude import StudentLearningAttitude

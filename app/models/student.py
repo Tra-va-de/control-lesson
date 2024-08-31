@@ -12,3 +12,4 @@ class Student(Base):
     date_of_birth = Column(Date, nullable=False)
 
     student_answers = relationship("StudentAnswer", back_populates="student")
+    student_learning_attitudes = relationship("StudentLearningAttitude", back_populates="student")

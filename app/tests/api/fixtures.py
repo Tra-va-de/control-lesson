@@ -133,3 +133,19 @@ async def create_student(client: AsyncClient):
     student_id = data["id"]
 
     return student_id
+
+
+@pytest.fixture(scope="session")
+async def create_learning_attitude(client: AsyncClient):
+    learning_attitude = {
+        "name": "Test learning attitude",
+    }
+    response = await client.post("/api/v1/learning-attitudes/", json=learning_attitude)
+    print("Response status:", response.status_code)
+    print("Response JSON:", response.json())
+    assert response.status_code == 200
+    data = response.json()
+    assert data["name"] == learning_attitude["name"]
+    learning_attitude_id = data["id"]
+
+    return learning_attitude_id
