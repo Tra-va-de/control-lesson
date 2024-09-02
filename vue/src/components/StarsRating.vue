@@ -1,17 +1,41 @@
 <script setup>
-	import { ref } from 'vue'
+	import { ref, inject, onMounted, watch } from 'vue'
+
+	import axios from 'axios'
 
 	const props = defineProps({
-		count: Number
+		count: Number,
+		qualityId: Number
 	})
 
+	const selectedStudent = inject('selectedStudent')
+
 	const stars = ref(Array(props.count).fill(false))
-	let rating = -1
+	let rating = ref(-1)
 
 	const toggleStar = (index, isClicked) => {
-		stars.value = stars.value.map((star, i) => i <= index)
-		if (isClicked) rating = index
+		stars.value = stars.value.map((_, i) => i <= index)
+		if (isClicked) rating.value = index
 	}
+
+	const fetchRating = async () => {
+		try {
+			const response = await axios.get(
+				import.meta.env.VITE_PRIVATE_API_ENDPOINT + 
+				'/student-learning-attitudes/student-and-learning-attitude/' + 
+				selectedStudent.value.id + '/' + props.qualityId
+			)
+			if (response.data && Object.keys(response.data).length !== 0) rating.value = response.data.rating - 1
+		} catch (error) {
+			console.error('Failed to fetch rating:', error)
+		}
+	}
+
+	onMounted(fetchRating)
+
+	watch(rating, () => {
+		toggleStar(rating.value, true)
+	})
 </script>
 
 <template>
