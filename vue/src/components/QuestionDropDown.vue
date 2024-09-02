@@ -42,12 +42,14 @@
 			const response = await axios.get(
 				apiEndpoint + '/student-answers/student-and-question/' + selectedStudent.value.id + '/' + props.questionId
 			)
-			selectedOption.value = response.data.answer
-
-			if (props.themeType == 'theory') {
-				theoryStudentPoints.value += selectedOption.value
-			} else if (props.themeType === 'practice') {
-				practiceStudentPoints.value += selectedOption.value
+			if (response.data && Object.keys(response.data).length !== 0) {
+				selectedOption.value = response.data.answer
+	
+				if (props.themeType == 'theory') {
+					theoryStudentPoints.value += selectedOption.value
+				} else if (props.themeType === 'practice') {
+					practiceStudentPoints.value += selectedOption.value
+				}
 			}
 		} catch (error) {
 			console.error('Failed to fetch student answer:', error)
