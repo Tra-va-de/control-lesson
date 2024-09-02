@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter, HTTPException, Depends
+from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from schemas.student_answer import StudentAnswer, StudentAnswerCreate, StudentAnswerUpdate, StudentAnswerCreateOrUpdate
@@ -106,7 +107,7 @@ async def read_student_answer_by_student_and_question_id(
 ):
     result = await service.get_by_student_and_question_id(db, student_id, question_id)
     if result is None:
-        raise HTTPException(status_code=404, detail="Student answer not found")
+        return JSONResponse(status_code=200, content={})
     return result
 
 

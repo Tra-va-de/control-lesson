@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter, HTTPException, Depends
+from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from schemas.student_learning_attitude import StudentLearningAttitude, StudentLearningAttitudeCreate, StudentLearningAttitudeUpdate
@@ -106,5 +107,5 @@ async def read_student_learning_attitudes_by_student_and_learning_attitude(
 ):
     student_learning_attitude = await service.get_student_learning_attitudes_by_student_and_learning_attitude_id(db, student_id, learning_attitude_id)
     if student_learning_attitude is None:
-        raise HTTPException(status_code=404, detail="Student learning attitude not found")
+        return JSONResponse(status_code=200, content={})
     return student_learning_attitude
