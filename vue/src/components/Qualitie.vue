@@ -2,7 +2,8 @@
 	import StarsRating from './StarsRating.vue'
 
 	defineProps({
-		title: String
+		title: String,
+		id: Number
 	})
 </script>
 
@@ -10,7 +11,7 @@
 	<div class="qualitie">
 		<p>{{ title }}</p>
 
-		<StarsRating :count="5" />
+		<StarsRating :count="5" :qualityId="id" />
 	</div>
 </template>
 
