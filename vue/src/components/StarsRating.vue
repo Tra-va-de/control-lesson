@@ -1,7 +1,9 @@
 <script setup>
-	import { ref, inject, onMounted, watch } from 'vue'
+	import { ref, inject, onMounted } from 'vue'
 
 	import axios from 'axios'
+
+	const apiEndpoint = import.meta.env.VITE_PRIVATE_API_ENDPOINT
 
 	const props = defineProps({
 		count: Number,
@@ -13,9 +15,22 @@
 	const stars = ref(Array(props.count).fill(false))
 	let rating = ref(-1)
 
-	const toggleStar = (index, isClicked) => {
+	const toggleStar = async (index, isClicked = false) => {
 		stars.value = stars.value.map((_, i) => i <= index)
-		if (isClicked) rating.value = index
+		
+		if (isClicked) {
+			rating.value = index
+
+			try {
+				await axios.post(apiEndpoint + '/student-learning-attitudes/create-or-update/', {
+					student_id: selectedStudent.value.id,
+					learning_attitude_id: props.qualityId,
+					rating: index + 1
+				})
+			} catch (error) {
+				console.error('Failed to save rating:', error)
+			}
+		}
 	}
 
 	const fetchRating = async () => {
@@ -25,7 +40,13 @@
 				'/student-learning-attitudes/student-and-learning-attitude/' + 
 				selectedStudent.value.id + '/' + props.qualityId
 			)
-			if (response.data && Object.keys(response.data).length !== 0) rating.value = response.data.rating - 1
+			if (response.data && Object.keys(response.data).length !== 0) {
+				// Обновляем значение рейтинга
+				rating.value = response.data.rating - 1
+
+				// Отображаем звезды
+				stars.value = stars.value.map((_, i) => i <= rating.value)
+			}
 		} catch (error) {
 			console.error('Failed to fetch rating:', error)
 		}
@@ -33,9 +54,9 @@
 
 	onMounted(fetchRating)
 
-	watch(rating, () => {
-		toggleStar(rating.value, true)
-	})
+	// watch(rating, () => {
+	// 	toggleStar(rating.value, true)
+	// })
 </script>
 
 <template>
