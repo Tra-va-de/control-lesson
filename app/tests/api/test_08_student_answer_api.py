@@ -113,7 +113,7 @@ async def test_create_or_update_student_answer_before_delete(client: AsyncClient
         "question_id": question_id,
         "answer": 0
     }
-    response = await client.post("/api/v1/student-answers/", json=student_answer_data)
+    response = await client.post("/api/v1/student-answers/create-or-update/", json=student_answer_data)
     print("Response status:", response.status_code)
     print("Response JSON:", response.json())
     assert response.status_code == 200
@@ -147,7 +147,7 @@ async def test_create_or_update_student_answer_after_delete(client: AsyncClient,
         "question_id": question_id,
         "answer": 0
     }
-    response = await client.post("/api/v1/student-answers/", json=student_answer_data)
+    response = await client.post("/api/v1/student-answers/create-or-update/", json=student_answer_data)
     print("Response status:", response.status_code)
     print("Response JSON:", response.json())
     assert response.status_code == 200
