@@ -25,11 +25,15 @@
 		selectedOption.value = option.value
 		isDropDownVisible.value = false
 
-		await axios.post(apiEndpoint + '/student-answers/create-or-update/', {
-			student_id: selectedStudent.value.id,
-			question_id: props.questionId,
-			answer: option.value
-		})
+		try {
+			await axios.post(apiEndpoint + '/student-answers/create-or-update/', {
+				student_id: selectedStudent.value.id,
+				question_id: props.questionId,
+				answer: option.value
+			})
+		} catch (error) {
+			console.error('Failed to save student answer:', error)
+		}
 	}
 
 	const theoryStudentPoints = inject('theoryStudentPoints')
