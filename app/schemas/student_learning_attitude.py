@@ -15,6 +15,10 @@ class StudentLearningAttitudeCreate(StudentLearningAttitudeBase):
 
 class StudentLearningAttitudeUpdate(StudentLearningAttitudeBase):
     rating: Optional[int] = Field(None, ge=1, le=5)
+
+
+class StudentLearningAttitudeCreateOrUpdate(StudentLearningAttitudeUpdate):
+    pass
     
 
 class StudentLearningAttitudeInDBBase(StudentLearningAttitudeBase):

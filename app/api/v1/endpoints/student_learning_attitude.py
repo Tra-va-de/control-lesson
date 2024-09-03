@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from schemas.student_learning_attitude import StudentLearningAttitude, StudentLearningAttitudeCreate, StudentLearningAttitudeUpdate
+from schemas.student_learning_attitude import StudentLearningAttitude, StudentLearningAttitudeCreate, StudentLearningAttitudeUpdate, StudentLearningAttitudeCreateOrUpdate
 from services.student_learning_attitude import StudentLearningAttitudeService
 from repositories.student_learning_attitude import StudentLearningAttitudeRepository
 from db.session import get_async_session
@@ -109,3 +109,12 @@ async def read_student_learning_attitudes_by_student_and_learning_attitude(
     if student_learning_attitude is None:
         return JSONResponse(status_code=200, content={})
     return student_learning_attitude
+
+
+@router.post("/student-learning-attitudes/create-or-update/", response_model=StudentLearningAttitude)
+async def create_or_update_student_answer(
+    student_learning_attitude: StudentLearningAttitudeCreateOrUpdate,
+    db: AsyncSession = Depends(get_async_session),
+    service: StudentLearningAttitudeService = Depends(get_student_learning_attitude_service)
+):
+    return await service.create_or_update_student_learning_attitude(db, student_learning_attitude)

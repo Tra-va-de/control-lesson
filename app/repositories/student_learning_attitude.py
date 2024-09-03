@@ -5,7 +5,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.student_learning_attitude import StudentLearningAttitude
-from schemas.student_learning_attitude import StudentLearningAttitudeCreate, StudentLearningAttitudeUpdate
+from schemas.student_learning_attitude import StudentLearningAttitudeCreate, \
+                                              StudentLearningAttitudeCreateOrUpdate, \
+                                              StudentLearningAttitudeUpdate
 
 
 class StudentLearningAttitudeRepository:
@@ -61,3 +63,32 @@ class StudentLearningAttitudeRepository:
     async def get_by_student_id_and_learning_attitude_id(self, db: AsyncSession, student_id: int, learning_attitude_id: int) -> StudentLearningAttitude:
         result = await db.execute(select(StudentLearningAttitude).filter(StudentLearningAttitude.student_id == student_id, StudentLearningAttitude.learning_attitude_id == learning_attitude_id))
         return result.scalars().first()
+    
+    async def create_or_update(self, db: AsyncSession, student_answer: StudentLearningAttitudeCreateOrUpdate) -> StudentLearningAttitude:
+        # Поиск существующей записи
+        query = select(StudentLearningAttitude).where(
+            (StudentLearningAttitude.student_id == student_answer.student_id) &
+            (StudentLearningAttitude.learning_attitude_id == student_answer.learning_attitude_id)
+        )
+        result = await db.execute(query)
+        existing_result = result.scalar_one_or_none()
+
+        if existing_result:
+            # Обновление существующей записи
+            for key, value in vars(student_answer).items():
+                setattr(existing_result, key, value)
+            await db.commit()
+            await db.refresh(existing_result)
+            return existing_result
+        else:
+            # Создание новой записи
+            new_result = StudentLearningAttitude(
+                student_id = student_answer.student_id,
+                learning_attitude_id = student_answer.learning_attitude_id,
+                rating = student_answer.rating
+            )
+            db.add(new_result)
+            await db.commit()
+            await db.refresh(new_result)
+            print("Создали новую запись при попытке обновления")
+            return new_result

@@ -113,12 +113,24 @@ async def test_get_student_learning_attitude_by_student_and_learning_attitude(cl
 
 @pytest.mark.asyncio
 @pytest.mark.order(8)
-async def test_get_non_existent_student_learning_attitude(client: AsyncClient):
-    response = await client.get("/api/v1/student-learning-attitudes/999")
+async def test_create_or_update_student_learning_attitude_before_delete(client: AsyncClient, create_student: int, create_learning_attitude: int):
+    student_id, learning_attitude_id = create_student, create_learning_attitude
+    print(f"student_id: {student_id}, learning_attitude_id: {learning_attitude_id}")
+
+    update_data = {
+        "student_id": student_id,
+        "learning_attitude_id": learning_attitude_id,
+        "rating": 5
+    }
+
+    response = await client.post("/api/v1/student-learning-attitudes/create-or-update/", json=update_data)
     print("Response status:", response.status_code)
     print("Response JSON:", response.json())
-    assert response.status_code == 404
-    assert response.json() == {"detail": "Student learning attitude not found"}
+    assert response.status_code == 200
+    data = response.json()
+    assert data["student_id"] == update_data["student_id"]
+    assert data["learning_attitude_id"] == update_data["learning_attitude_id"]
+    assert data["rating"] == update_data["rating"]
 
 
 @pytest.mark.asyncio
@@ -133,4 +145,36 @@ async def test_delete_student_learning_attitude(client: AsyncClient, create_stud
     assert data["id"] == 1
     assert data["student_id"] == student_id
     assert data["learning_attitude_id"] == learning_attitude_id
-    assert data["rating"] == 2
+    assert data["rating"] == 5
+
+
+@pytest.mark.asyncio
+@pytest.mark.order(10)
+async def test_create_or_update_student_learning_attitude_after_delete(client: AsyncClient, create_student: int, create_learning_attitude: int):
+    student_id, learning_attitude_id = create_student, create_learning_attitude
+    print(f"student_id: {student_id}, learning_attitude_id: {learning_attitude_id}")
+
+    update_data = {
+        "student_id": student_id,
+        "learning_attitude_id": learning_attitude_id,
+        "rating": 4
+    }
+
+    response = await client.post("/api/v1/student-learning-attitudes/create-or-update/", json=update_data)
+    print("Response status:", response.status_code)
+    print("Response JSON:", response.json())
+    assert response.status_code == 200
+    data = response.json()
+    assert data["student_id"] == update_data["student_id"]
+    assert data["learning_attitude_id"] == update_data["learning_attitude_id"]
+    assert data["rating"] == update_data["rating"]
+
+
+@pytest.mark.asyncio
+@pytest.mark.order(11)
+async def test_get_non_existent_student_learning_attitude(client: AsyncClient):
+    response = await client.get("/api/v1/student-learning-attitudes/999")
+    print("Response status:", response.status_code)
+    print("Response JSON:", response.json())
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Student learning attitude not found"}
