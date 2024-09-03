@@ -111,7 +111,7 @@ async def read_student_answer_by_student_and_question_id(
     return result
 
 
-@router.post("/student-answers/create-or-update", response_model=StudentAnswer)
+@router.post("/student-answers/create-or-update/", response_model=StudentAnswer)
 async def create_or_update_student_answer(
     student_answer: StudentAnswerCreateOrUpdate,
     db: AsyncSession = Depends(get_async_session),
