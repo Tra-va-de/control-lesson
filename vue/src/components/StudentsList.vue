@@ -35,6 +35,9 @@
     const selectStudent = (student) => {
         selectedStudent.value = student;
         props.changeSlide();
+
+        // Сохраняем выбранного студента в локальное хранилище
+        localStorage.setItem('selectedStudent', JSON.stringify({value: student, timestamp: new Date().getTime()}));
     };
 </script>
 

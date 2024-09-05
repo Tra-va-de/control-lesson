@@ -67,6 +67,9 @@
 
     const selectLesson = (lessonId) => {
         selectedLesson.value = lessonId
+
+        // Сохраняем выбранный урок в локальное хранилище
+        localStorage.setItem('selectedLesson', JSON.stringify({value: lessonId, timestamp: Date.now()}));
     };
 </script>
 
