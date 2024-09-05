@@ -25,6 +25,7 @@
         top: 0;
         left: 0;
         overflow: hidden;
+        z-index: 10000;
 
         opacity: 0;
         
