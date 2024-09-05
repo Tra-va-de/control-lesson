@@ -4,7 +4,7 @@
 	const props = defineProps({
 		subject: String,
 		type: String,
-		questions: Object
+		questions: Object,
 	})
 </script>
 
@@ -26,22 +26,22 @@
 </template>
 
 <style scoped lang="scss">
-.subject {
-	padding: 20px;
+	.subject {
+		padding: 20px;
 
-	&__title {
-		font-size: 16px;
-		font-weight: 500;
-		background-color: var(--extra-light-gray);
-	}
+		&__title {
+			font-size: 16px;
+			font-weight: 500;
+			background-color: var(--extra-light-gray);
+		}
 
-	&__questions {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		align-items: center;
-		justify-content: space-between;
-		gap: 20px;
-		padding-top: 20px;
+		&__questions {
+			display: grid;
+			grid-template-columns: 1fr auto;
+			align-items: center;
+			justify-content: space-between;
+			gap: 20px;
+			padding-top: 20px;
+		}
 	}
-}
 </style>

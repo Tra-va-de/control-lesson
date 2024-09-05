@@ -4,7 +4,7 @@
 	defineProps({
 		title: String,
 		type: String,
-		questionsArray: Array
+		questionsArray: Array,
 	})
 </script>
 

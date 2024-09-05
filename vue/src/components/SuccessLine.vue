@@ -4,7 +4,7 @@
 	const props = defineProps({
 		title: String,
 		studentPoints: Number,
-		maximumPoints: Number
+		maximumPoints: Number,
 	})
 
 	const width = ref((props.studentPoints / props.maximumPoints) * 100)
@@ -27,7 +27,9 @@
 	<div class="success">
 		<h2 class="success__title">{{ title }}</h2>
 
-		<p class="success__points">{{ studentPoints }}/{{ maximumPoints }} {{ width.toFixed(2) }}%</p>
+		<p class="success__points">
+			{{ studentPoints }}/{{ maximumPoints }} {{ width.toFixed(2) }}%
+		</p>
 
 		<div class="success__line">
 			<div class="success__line-green"></div>

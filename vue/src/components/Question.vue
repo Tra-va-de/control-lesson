@@ -5,7 +5,7 @@
 		title: String,
 		answer: String,
 		type: String,
-		id: Number
+		id: Number,
 	})
 
 	const options = [
@@ -13,20 +13,20 @@
 			name: 'cancel',
 			text: 'не выполнено (0 баллов)',
 			color: 'var(--red)',
-			value: 0
+			value: 0,
 		},
 		{
 			name: 'check_circle',
 			text: 'выполнено частично (0.5 балла)',
 			color: 'var(--yellow)',
-			value: 0.5
+			value: 0.5,
 		},
 		{
 			name: 'check_circle',
 			text: 'выполнено полностью (1 балл)',
 			color: 'var(--lime)',
-			value: 1
-		}
+			value: 1,
+		},
 	]
 </script>
 

@@ -2,7 +2,7 @@
 	defineProps({
 		name: String,
 		text: String,
-		color: String
+		color: String,
 	})
 </script>
 

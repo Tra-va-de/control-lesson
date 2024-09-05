@@ -9,7 +9,7 @@
 	const props = defineProps({
 		options: Array,
 		themeType: String,
-		questionId: Number
+		questionId: Number,
 	})
 
 	const selectedOption = ref(0)
@@ -29,7 +29,7 @@
 			await axios.post(apiEndpoint + '/student-answers/create-or-update/', {
 				student_id: selectedStudent.value.id,
 				question_id: props.questionId,
-				answer: option.value
+				answer: option.value,
 			})
 		} catch (error) {
 			console.error('Failed to save student answer:', error)
@@ -44,11 +44,15 @@
 	const fetchStudentAnswer = async () => {
 		try {
 			const response = await axios.get(
-				apiEndpoint + '/student-answers/student-and-question/' + selectedStudent.value.id + '/' + props.questionId
+				apiEndpoint +
+					'/student-answers/student-and-question/' +
+					selectedStudent.value.id +
+					'/' +
+					props.questionId
 			)
 			if (response.data && Object.keys(response.data).length !== 0) {
 				selectedOption.value = response.data.answer
-	
+
 				if (props.themeType == 'theory') {
 					theoryStudentPoints.value += selectedOption.value
 				} else if (props.themeType === 'practice') {

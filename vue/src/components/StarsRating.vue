@@ -7,7 +7,7 @@
 
 	const props = defineProps({
 		count: Number,
-		qualityId: Number
+		qualityId: Number,
 	})
 
 	const selectedStudent = inject('selectedStudent')
@@ -17,7 +17,7 @@
 
 	const toggleStar = async (index, isClicked = false) => {
 		stars.value = stars.value.map((_, i) => i <= index)
-		
+
 		if (isClicked) {
 			rating.value = index
 
@@ -25,7 +25,7 @@
 				await axios.post(apiEndpoint + '/student-learning-attitudes/create-or-update/', {
 					student_id: selectedStudent.value.id,
 					learning_attitude_id: props.qualityId,
-					rating: index + 1
+					rating: index + 1,
 				})
 			} catch (error) {
 				console.error('Failed to save rating:', error)
@@ -36,9 +36,11 @@
 	const fetchRating = async () => {
 		try {
 			const response = await axios.get(
-				import.meta.env.VITE_PRIVATE_API_ENDPOINT + 
-				'/student-learning-attitudes/student-and-learning-attitude/' + 
-				selectedStudent.value.id + '/' + props.qualityId
+				import.meta.env.VITE_PRIVATE_API_ENDPOINT +
+					'/student-learning-attitudes/student-and-learning-attitude/' +
+					selectedStudent.value.id +
+					'/' +
+					props.qualityId
 			)
 			if (response.data && Object.keys(response.data).length !== 0) {
 				// Обновляем значение рейтинга
