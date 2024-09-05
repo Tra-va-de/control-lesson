@@ -49,18 +49,31 @@ services:
       - ${REDIS_DB_HOST_PORT}:6379
     restart: always
 
-  vue:
-    container_name: control_lesson_vue
+  web:
+    container_name: control_lesson_web
     build:
-      context: ./vue
+      context: ./web
       dockerfile: Dockerfile
     depends_on:
       - app
     networks:
       - app-network
     ports:
-      - ${VUE_APP_HOST_PORT}:8080
+      - ${WEB_HOST_PORT}:8080
     restart: always
+
+  cms:
+    container_name: control_lesson_cms
+    build:
+      context: ./cms
+      dockerfile: Dockerfile
+    depends_on:
+      - app
+    networks:
+      - app-network
+    ports:
+      - ${CMS_HOST_PORT}:8000
+    # restart: always
 
 networks:
   app-network:

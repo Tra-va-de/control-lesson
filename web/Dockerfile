@@ -2,7 +2,7 @@ FROM node:lts-alpine
 
 WORKDIR /code
 
-COPY . /code
+COPY . .
 
 RUN npm install
 
